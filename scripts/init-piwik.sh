@@ -14,7 +14,11 @@ dbname = \"piwik\"
 tables_prefix = \"piwik_\"
 adapter = \"PDO\MYSQL\"
 type = \"InnoDB\"
-schema = \"Mysql\"" > $CONFIG_FILE
+schema = \"Mysql\"
+
+[General]
+proxy_client_headers[] = HTTP_X_REAL_IP
+" > $CONFIG_FILE
 fi
 
 # MySQL database host

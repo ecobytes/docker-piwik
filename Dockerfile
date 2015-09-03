@@ -2,8 +2,6 @@ FROM phusion/baseimage:0.9.15
 MAINTAINER Brian Prodoehl <bprodoehl@connectify.me>
 
 ENV HOME /root
-CMD ["/sbin/my_init"]
-EXPOSE 80 443
 
 # 0.9.15 is getting a bit long in the tooth, so lets grab security fixes
 RUN apt-get update && apt-get -y dist-upgrade
@@ -47,7 +45,8 @@ RUN cd /usr/share/nginx/html/misc && \
 
 ADD config/piwik-schema.sql /usr/share/nginx/html/config/base-schema.sql
 
-ADD scripts/generate-certs.sh /etc/my_init.d/05-certs.sh
 ADD scripts/init-piwik.sh /etc/my_init.d/10-piwik.sh
 
 RUN touch /etc/service/sshd/down
+CMD ["/sbin/my_init"]
+EXPOSE 80
