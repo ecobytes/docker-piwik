@@ -6,23 +6,13 @@ ENV HOME /root
 # 0.9.15 is getting a bit long in the tooth, so lets grab security fixes
 RUN apt-get update && apt-get -y dist-upgrade
 
-RUN echo "deb http://ppa.launchpad.net/nginx/development/ubuntu $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/nginx-development.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C
 RUN add-apt-repository universe && add-apt-repository multiverse
 RUN apt-get update -q && \
-    apt-get install -qy mysql-client nginx php5-cli php5-gd php5-fpm php5-json \
-                        php5-mysql php5-curl wget && \
+    apt-get install -qy mysql-client nginx-full php7.0-cli php7.0-gd php7.0-fpm php7.0-json \
+                        php7.0-mysql php7.0-curl wget && \
     apt-get clean
 
-RUN mkdir /etc/service/nginx
-ADD runit/nginx.sh /etc/service/nginx/run
-
-RUN mkdir /etc/service/php5-fpm
-ADD runit/php5-fpm.sh /etc/service/php5-fpm/run
-
-ADD config/nginx.conf /etc/nginx/nginx.conf
-ADD config/nginx-default.conf /etc/nginx/sites-available/default
-ADD config/php.ini /etc/php5/fpm/php.ini
+ADD config/php.ini /etc/php/7.0/fpm/php.ini
 
 RUN cd /usr/share/nginx/html && \
     export PIWIK_VERSION=3.0.1 && \
@@ -43,6 +33,17 @@ RUN cd /usr/share/nginx/html/misc && \
     gunzip GeoLiteCity.dat.gz && \
     chown www-data:www-data GeoLiteCity.dat && \
 	mv GeoLiteCity.dat GeoIPCity.dat
+
+RUN mkdir /etc/service/nginx
+ADD runit/nginx.sh /etc/service/nginx/run
+
+RUN mkdir /etc/service/php7-fpm
+ADD runit/php7-fpm.sh /etc/service/php7-fpm/run
+RUN mkdir /run/php && touch /run/php/php7.0-fpm.sock && \
+     chown www-data:www-data /run/php/php7.0-fpm.sock
+
+ADD config/nginx.conf /etc/nginx/nginx.conf
+ADD config/nginx-default.conf /etc/nginx/sites-available/default
 
 ADD config/piwik-schema.sql /usr/share/nginx/html/config/base-schema.sql
 
