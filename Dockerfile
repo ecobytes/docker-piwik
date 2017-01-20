@@ -1,5 +1,5 @@
-FROM phusion/baseimage:0.9.15
-MAINTAINER Brian Prodoehl <bprodoehl@connectify.me>
+FROM phusion/baseimage:0.9.19
+MAINTAINER Brian Prodoehl <bprodoehl@connectify.me>, Jon Richter <post@jonrichter.de>
 
 ENV HOME /root
 
@@ -25,7 +25,7 @@ ADD config/nginx-default.conf /etc/nginx/sites-available/default
 ADD config/php.ini /etc/php5/fpm/php.ini
 
 RUN cd /usr/share/nginx/html && \
-    export PIWIK_VERSION=2.14.3 && \
+    export PIWIK_VERSION=3.0.1 && \
     wget http://builds.piwik.org/piwik-${PIWIK_VERSION}.tar.gz && \
     tar -xzf piwik-${PIWIK_VERSION}.tar.gz && \
     rm piwik-${PIWIK_VERSION}.tar.gz && \
@@ -41,7 +41,8 @@ RUN cd /usr/share/nginx/html && \
 RUN cd /usr/share/nginx/html/misc && \
     wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz && \
     gunzip GeoLiteCity.dat.gz && \
-    chown www-data:www-data GeoLiteCity.dat
+    chown www-data:www-data GeoLiteCity.dat && \
+	mv GeoLiteCity.dat GeoIPCity.dat
 
 ADD config/piwik-schema.sql /usr/share/nginx/html/config/base-schema.sql
 
