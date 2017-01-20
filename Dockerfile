@@ -12,7 +12,6 @@ RUN apt-get update -q && \
                         php7.0-mysql php7.0-curl wget && \
     apt-get clean
 
-ADD config/php.ini /etc/php/7.0/fpm/php.ini
 
 RUN cd /usr/share/nginx/html && \
     export PIWIK_VERSION=3.0.1 && \
@@ -33,6 +32,8 @@ RUN cd /usr/share/nginx/html/misc && \
     gunzip GeoLiteCity.dat.gz && \
     chown www-data:www-data GeoLiteCity.dat && \
 	mv GeoLiteCity.dat GeoIPCity.dat
+
+ADD config/php.ini /etc/php/7.0/fpm/php.ini
 
 RUN mkdir /etc/service/nginx
 ADD runit/nginx.sh /etc/service/nginx/run
