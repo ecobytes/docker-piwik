@@ -18,6 +18,7 @@ schema = \"Mysql\"
 
 [General]
 proxy_client_headers[] = HTTP_X_REAL_IP
+assume_secure_protocol = 1
 " > $CONFIG_FILE
 fi
 
