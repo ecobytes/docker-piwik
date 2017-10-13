@@ -1,15 +1,14 @@
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.22
 MAINTAINER Brian Prodoehl <bprodoehl@connectify.me>, Jon Richter <post@jonrichter.de>
 
 ENV HOME /root
 
-# 0.9.15 is getting a bit long in the tooth, so lets grab security fixes
 RUN apt-get update && apt-get -y dist-upgrade
 
 RUN add-apt-repository universe && add-apt-repository multiverse
 RUN apt-get update -q && \
     apt-get install -qy mysql-client nginx-full php7.0-cli php7.0-gd php7.0-fpm php7.0-json \
-                        php7.0-mysql php7.0-curl wget && \
+                        php7.0-mysql php7.0-curl php-xml php7.0-mbstring wget && \
     apt-get clean
 
 
