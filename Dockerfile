@@ -14,7 +14,7 @@ RUN apt-get update -q && \
 
 
 RUN cd /usr/share/nginx/html && \
-    export PIWIK_VERSION=3.0.1 && \
+    export PIWIK_VERSION=3.2.0 && \
     wget http://builds.piwik.org/piwik-${PIWIK_VERSION}.tar.gz && \
     tar -xzf piwik-${PIWIK_VERSION}.tar.gz && \
     rm piwik-${PIWIK_VERSION}.tar.gz && \
